@@ -3,22 +3,22 @@ package com.example.crimeintent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
-import androidx.core.view.GravityCompat.apply
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import java.util.*
 
 private const val ARG_CRIME_ID = "crime_id"
 private const val TAG = "CrimeFragment"
+private const val DIALOG_DATE = "DialogDate"
+private const val REQUEST_DATE = 0
 
-class CrimeFragment : Fragment() {
+class CrimeFragment : Fragment(), DatePickerFragment.Callbacks {
 
     private lateinit var crime: Crime
     private lateinit var titleField: EditText
@@ -43,11 +43,6 @@ class CrimeFragment : Fragment() {
         titleField = view.findViewById(R.id.crime_title) as EditText
         dateButton = view.findViewById(R.id.crime_date) as Button
         solvedCheckBox = view.findViewById(R.id.crime_solved) as CheckBox
-
-        dateButton.apply {
-            text = crime.date.toString()
-            isEnabled = false
-        }
 
         return view
     }
@@ -84,7 +79,7 @@ class CrimeFragment : Fragment() {
                 count: Int,
                 after: Int
             ) {
-                // This space intentionally left blank
+
             }
 
             override fun onTextChanged(
@@ -97,7 +92,7 @@ class CrimeFragment : Fragment() {
             }
 
             override fun afterTextChanged(sequence: Editable?) {
-                // This one too
+
             }
         }
 
@@ -108,6 +103,13 @@ class CrimeFragment : Fragment() {
                 crime.isSolved = isChecked
             }
         }
+
+        dateButton.setOnClickListener {
+            DatePickerFragment.newInstance(crime.date).apply {
+                setTargetFragment(this@CrimeFragment, REQUEST_DATE)
+                show(this@CrimeFragment.requireFragmentManager(), DIALOG_DATE)
+            }
+        }
     }
 
     override fun onStop() {
@@ -115,6 +117,10 @@ class CrimeFragment : Fragment() {
         crimeDetailViewModel.saveCrime(crime)
     }
 
+    override fun onDateSelected(date: Date) {
+        crime.date = date
+        updateUI()
+    }
 
     companion object {
         fun newInstance(crimeId: UUID): CrimeFragment {
