@@ -8,7 +8,7 @@ import java.io.File
 import java.io.FilePermission
 import java.util.*
 
-class CrimeDeteilViewModel() : ViewModel() {
+class CrimeDetailViewModel() : ViewModel() {
 
     private val crimeRepository = CrimeRepository.get()
     private val crimeIdLiveData = MutableLiveData<UUID>()
@@ -29,4 +29,5 @@ class CrimeDeteilViewModel() : ViewModel() {
     fun getPhotoFile(crime: Crime): File {
         return crimeRepository.getPhotoFile(crime)
     }
+
 }
