@@ -2,6 +2,7 @@ package com.example.crimeintent
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.net.FileNameMap
 import java.util.*
 
 @Entity
@@ -11,4 +12,8 @@ data class Crime(
     var date: Date = Date(),
     var isSolved: Boolean = false,
     var suspect: String = ""
-)
+
+){
+    val photoFileName
+        get() ="IMG_$id.jpg"
+}
