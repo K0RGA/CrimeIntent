@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.crimeintent">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false">
+    </uses-feature>
+
     <application
         android:name=".CriminalIntentApplication"
         android:allowBackup="true"
@@ -24,12 +29,12 @@
             </intent-filter>
         </activity>
         <provider
-            android:authorities="com.example.crimeintent.fileprovider"
+            android:authorities="com.example.android.crimeintent.fileprovider"
             android:name="androidx.core.content.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
-                android:name="android.support.FILE_PROVIDERS_PATHS"
+                android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/files"/>
         </provider>
     </application>
